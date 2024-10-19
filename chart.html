@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กราฟแท่งเรียลไทม์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 1300px;
+            width: 100%;
+        }
+        h1 {
+            color: #444;
+            font-size: 26px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Popular Vote</h1>
+        <canvas id="myChart" width="400" height="200"></canvas>
+        <button onclick="goBack()">กรอกค่าใหม่</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // รับค่าจาก sessionStorage
+        const barValues = JSON.parse(sessionStorage.getItem('barValues')) || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        // สีของแท่งกราฟ
+        const colors = [
+            '#FF6F61', '#6B5B95', '#88B04B', '#F7CAC9', '#92A8D1', '#F7786B', '#034F84', '#98DDDE', '#B565A7', '#DD4124'
+        ];
+
+        // สร้างกราฟแท่ง
+        let chartData = {
+            labels: ['LP01 ซูยุ', 'LP02 โตโต้', 'LP03 อองรี', 'LP04 คูณ', 'LP05 ดรีมมี่', 'LP06 พริม', 'LP07 อิง', 'LP08 บัว', 'LP09 กระต่าย', 'LP10 เปรม'],
+            datasets: [{
+                label: 'คะแนน',
+                data: barValues,
+                backgroundColor: colors,
+                borderColor: colors,
+                borderWidth: 2
+            }]
+        };
+
+        let myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 10,  // ปรับให้ไล่ค่าทีละ 1
+                            callback: function(value) {
+                                return Number(value).toFixed(0);  // ปรับให้ไม่มีทศนิยม
+                            }
+                        },
+                        grid: {
+                            color: '#e0e0e0'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 18,
+                                family: 'Prompt'
+                            },
+                            maxRotation: 45,
+                            minRotation: 0,
+                        },
+                        grid: {
+                            color: '#f0f0f0'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#333',
+                            font: {
+                                family: 'Prompt',
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function goBack() {
+            window.location.href = 'input.html';
+        }
+    </script>
+</body>
+</html>

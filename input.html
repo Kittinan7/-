@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular Vote</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+        }
+        h1 {
+            color: #444;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #inputs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+        }
+        input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            text-align: center;
+            width: 80%;
+            background-color: #f8f9fa;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>กรอกคะแนนโหวต</h1>
+        <div id="inputs">
+            <input type="number" id="bar1" value="0" placeholder="Bar 1" step="1">
+            <input type="number" id="bar2" value="0" placeholder="Bar 2" step="1">
+            <input type="number" id="bar3" value="0" placeholder="Bar 3" step="1">
+            <input type="number" id="bar4" value="0" placeholder="Bar 4" step="1">
+            <input type="number" id="bar5" value="0" placeholder="Bar 5" step="1">
+            <input type="number" id="bar6" value="0" placeholder="Bar 6" step="1">
+            <input type="number" id="bar7" value="0" placeholder="Bar 7" step="1">
+            <input type="number" id="bar8" value="0" placeholder="Bar 8" step="1">
+            <input type="number" id="bar9" value="0" placeholder="Bar 9" step="1">
+            <input type="number" id="bar10" value="0" placeholder="Bar 10" step="1">
+        </div>
+        <button onclick="openChartPage()">เปิดกราฟ</button>
+    </div>
+
+    <script>
+        function openChartPage() {
+            const values = [];
+            for (let i = 1; i <= 10; i++) {
+                values.push(document.getElementById('bar' + i).value);
+            }
+
+            // เก็บค่าที่กรอกใน sessionStorage
+            sessionStorage.setItem('barValues', JSON.stringify(values));
+
+            // เปิดหน้ากราฟในแท็บใหม่
+            window.location.href = 'chart.html';
+        }
+
+        // โหลดค่าที่เก็บไว้ใน sessionStorage และแสดงใน input fields
+        window.onload = function() {
+            const storedValues = JSON.parse(sessionStorage.getItem('barValues'));
+            if (storedValues) {
+                for (let i = 1; i <= 10; i++) {
+                    document.getElementById('bar' + i).value = storedValues[i - 1];
+                }
+            }
+        }
+    </script>
+</body>
+</html>
